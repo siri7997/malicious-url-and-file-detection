@@ -1,0 +1,121 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThreatGuard</title>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #0d1117;
+        color: #ffffff;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
+        .navbar {
+            width: 100%;
+            background: #161b22;
+            padding: 25px 0;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        .navbar h1 {
+            margin: 0;
+            font-size: 32px;
+            font-weight: bold;
+            color: #58a6ff;
+        }
+
+        .container {
+            margin-top: 120px;
+            background: #1c2128;
+            padding: 40px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 700px;
+            text-align: center;
+        }
+
+        input, button {
+            width: 95%;
+            padding: 14px;
+            font-size: 18px;
+            margin: 10px auto;
+            border-radius: 8px;
+        }
+
+        input {
+            background-color: #22272e;
+            border: 2px solid #58a6ff;
+            color: white;
+        }
+
+        button {
+            background-color: #238636;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background-color: #2ea043;
+            transform: scale(1.05);
+        }
+        .result-box {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        .benign { color: #34D399; }
+        .phishing { color: #FBBF24; }
+        .malware { color: #EF4444; }
+        .defacement { color: #A78BFA; }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <h1><i class="fas fa-shield-alt"></i> ThreatGuard</h1>
+    </div>
+
+    <div class="container">
+        <h2>Malicious Files</h2>
+        <form action="/scam/" method="post" enctype="multipart/form-data">
+            <label>Upload a file (PDF/TXT only):</label>
+            <input type="file" name="file" required>
+            <button type="submit">Analyze</button>
+        </form>
+        {% if message %}
+        <div class="result-box">
+            <strong>Result:</strong> {{ message }}
+        </div>
+        {% endif %}
+        <hr style="margin: 30px 0; border-color: #333;">
+
+        <h2>URL Threat Detection</h2>
+        <form method="post" action="/predict">
+            <label>Enter URL:</label>
+            <input type="text" name="url" placeholder="https://example.com" required>
+            <button type="submit">Classify</button>
+        </form>
+
+        {% if predicted_class %}
+            <div class="result-box {{ predicted_class }}">
+                <p><strong>URL:</strong> {{ input_url }}</p>
+                <p><strong>Predicted Class:</strong> {{ predicted_class }}</p>
+            </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>
